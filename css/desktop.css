@@ -1,0 +1,5 @@
+#main {
+    background-image: url("../img/edBorderLeft.png"), url("../img/edBorderRight.png");
+    background-position: left top, right top;
+    background-size: auto;
+}

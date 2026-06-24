@@ -1,0 +1,18 @@
+body {
+    font-family: arial;
+}
+
+#main {
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+footer {
+    background-color: #b33535;
+    color: white;
+    height: 18px;
+}
+
+h1{
+    margin-top: 0px;
+}
