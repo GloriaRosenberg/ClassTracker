@@ -1,5 +1,40 @@
-#main {
+.main {
     background-image: url("../img/edBorderLeft.png"), url("../img/edBorderRight.png");
     background-position: left top, right top;
-    background-size: auto;
+    background-size: auto 750px;
+    min-height: 700px;
+}
+
+.title {
+    font-size: 60px;
+}
+
+form {
+    font-size: 20px;
+}
+
+form[name="actionForm"] {
+    max-width: 630px;
+}
+
+thead {
+    position: sticky;
+    top: 0px;
+}
+
+tfoot {
+    position: sticky;
+    bottom: 0px;
+}
+
+.marginTop{
+    top: 50px;
+    padding-bottom: 60px;
+}
+
+table {
+    display: block;
+    max-height: 470px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }

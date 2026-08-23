@@ -2,17 +2,271 @@ body {
     font-family: arial;
 }
 
-#main {
+.main {
+    background-attachment: fixed;
     background-repeat: no-repeat;
     text-align: center;
 }
 
+.flexContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.singleColFlex {
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.title {
+    -webkit-box-reflect: below -10px linear-gradient(to bottom, rgba(0,0,0,0.0), 80%, rgba(0,0,0,0.4));
+    margin-bottom: 50px;
+}
+
+.subtitle {
+    margin-bottom: 20px;
+}
+
 footer {
-    background-color: #b33535;
+    background-color: #4252b1;
     color: white;
-    height: 18px;
+    text-align: center;
+    font-size: 14px;
+    padding: 13px;
+    position: sticky;
+    bottom: 0px;
 }
 
 h1{
+    font-family: "Titan One", sans-serif;
+    font-weight: normal;
+    margin: 0px;
+    background-color: white;
+}
+
+h1:not(h1.title){
+    max-width: 400px;
+}
+
+h2 {
+    font-family: "Titan One", sans-serif;
+    font-size: 25px; 
+    font-weight: 100;
+    margin: 0px;
+}
+
+h3 {
+    font-family: "Titan One", sans-serif;
+    font-size: 1.2em;
+    font-weight: 100;
     margin-top: 0px;
+}
+
+p, label, legend {
+    font-family: "Coming Soon", cursive;
+    font-size: 16px;
+    font-weight: bold;  
+    display: block;
+}
+
+p{
+    margin: 0px;
+}
+
+form[name="actionForm"] label{
+    width: 310px;
+    text-align: right;
+    flex-direction: column;
+}
+
+
+fieldset {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 1px solid #80cac3;
+    margin: 0px 0px 20px 0px;
+    max-width: 400px;
+}
+
+fieldset input {
+    background-color: #c1e1e6;
+    border: none;
+    width: unset;
+}
+
+legend {
+    color: #80cac3;
+}
+
+form[name="dateFilter"] label {
+    display: inline;
+    padding: 10px;
+}
+
+form[name="chooseGroup"]{
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+}
+
+input, textarea {
+    background-color: white;
+    border: 1px solid #4252b1;
+    border-radius: 3px;
+    width: 200px;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]{
+    width: 19px; 
+    height: 19px;
+    margin: 0px 3px 0px 0px;
+}
+
+input[name="payDate"]{
+   width: 177px;
+}
+
+form {
+    margin: 0px;
+}
+
+.formFlex{
+    background-color: white;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+select {
+    background-color: #c1e1e6;
+    border: none;
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    margin: 10px;
+}
+
+button, .button, .fontButton {
+    color: white;
+    height: 30;
+    border-radius: 5px;
+    border-color: transparent;
+    margin: 10px;
+}
+
+.wide90 {
+    width: 90px;
+}
+
+button, .fontButton {
+    font-family: "Titan One", sans-serif;
+    background-color: #4252b1;
+    font-size: 18px;
+}
+
+a.button {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0px;
+}
+
+a.fontButton {
+    text-decoration: none;
+    padding-top: 7px;
+    align-self: center;
+}
+
+.greenBack{
+    background-color: #009444;
+}
+
+.bluePurpleBack{
+    background-color: #4252b1;
+}
+
+.redBack {
+    background-color: #e84643;
+}
+
+.paleBlueBack {
+    background-color: #c1e1e6;
+    color: black;
+}
+
+.aquaBack{
+    background-color: #80cac3;
+    /* color: black;  */
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 5px;
+    min-width: 50px;
+}
+
+tr:nth-child(2n+1) {
+    background-color: #d5f0ed;
+}
+
+tr:nth-child(2n){
+    background-color: white;
+}
+
+th, tfoot td {
+    background-color: #80cac3;
+    color: white;
+    font-weight: bold;
+}
+
+.red {
+    color: #e84643;
+}
+
+.paleBlue {
+    color: #80cac3;
+}
+
+.palePurple {
+    color: #c6a2ff;
+}
+
+.yellow {
+    color: #facd1c;
+}
+
+.bluePurple {
+    color: #4252b1;
+}
+
+.green {
+    color: #009444;
+}
+
+.blue {
+    color: #0296f6;
+}
+
+.pink {
+    color: #ff5c83;
+}
+
+.purple {
+    color: #a968ff;
+}
+
+@media screen and (min-width: 481px) {
+    #mobileSummary{
+        display: none;
+    }
 }

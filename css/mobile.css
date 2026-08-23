@@ -1,5 +1,74 @@
-#main {
-    background-image: url("../img/edBorderTop.png");
-    background-size: 480px;
-    height: 900px;
+.main {
+    background-image: url("../img/edBorderTop.png"), url("../img/edBorderBottom.png");
+    background-position: top, bottom;
+    background-size: 100%;
+    padding-bottom: 130px;
+    min-height: 900px;
+}
+
+.marginTop{
+    top: 120px;
+}
+
+.title{
+    font-size: 40px;
+}
+
+h1{
+    /* padding: 0px 50px; */
+    max-width: 90% !important;
+}
+
+table:not([id="mobileSummary"], .preview) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+tr:not(table[id="mobileSummary"] tr, .preview tr) {
+    display: flex;
+    flex-direction: column;
+}
+
+thead {
+    position: sticky;
+    left: 0px;
+    width: 80px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+tbody:not(table[id="mobileSummary"] tbody, .preview tbody) {
+    display:flex;
+    flex-direction: row;
+    font-size: 14px;
+    max-width: 220px;
+    overflow-x: auto;
+}
+
+th:not(table[id="mobileSummary"] th, .preview th), td:not(table[id="mobileSummary"] td, .preview td) {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td {
+    width: 200px;
+}
+
+tfoot{
+    display: none;
+}
+
+#mobileSummary, table.preview{
+    width: 300px;
+}
+
+table.preview tr{
+    width: 40px;
+}
+
+form[name="dateFilter"]{
+    width: 300px;
 }

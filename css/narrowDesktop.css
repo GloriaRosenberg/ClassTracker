@@ -1,0 +1,40 @@
+.main {
+    background-image: url("../img/edBorderTop.png"), url("../img/edBorderBottom.png");
+    background-position: top, bottom;
+    background-size: 100%;
+    background-attachment: unset !IMPORTANT;
+    min-height: 700px;
+    padding-top: 60px;
+    padding-bottom: 130px;
+}
+
+.title{
+    font-size: 60px;
+}
+
+thead {
+    position: sticky;
+    top: 0px;
+    width: 100px;
+}
+
+tfoot {
+    position: sticky;
+    bottom: 0px;
+}
+
+.marginTop{
+    top: 130px;
+}
+
+.formFlex{
+    margin: 2% 5%;
+}
+
+table {
+    width: 90%;
+    overflow-x: auto;
+    display: block;
+    /* max-height: 470px;
+    overflow-y: scroll; */
+}
