@@ -104,10 +104,26 @@
                                 ?>
                                     <td class="lessonDate"><?=$date?></td>
                                     <td class="hours"><?=$hours?></td>
-                                    <td class="content"><?=htmlspecialchars($content)?></td>
-                                    <td class="attendance"><?=htmlspecialchars($attendance)?></td>
-                                    <td class="sNotes"><?=htmlspecialchars($s_notes)?></td>
-                                    <td class="fNotes"><?=htmlspecialchars($f_notes)?></td>
+                                    <td class="content"><?php
+                                    if($content != null){
+                                        echo "htmlspecialchars($content)";
+                                    }
+                                    ?></td>
+                                    <td class="attendance"><?php
+                                    if($attendance != null){
+                                        echo "htmlspecialchars($attendance)";
+                                    }
+                                    ?></td>
+                                    <td class="sNotes"><?php
+                                    if($s_notes != null){
+                                        echo "htmlspecialchars($s_notes)";
+                                    }
+                                    ?></td>
+                                    <td class="fNotes"><?php
+                                    if($f_notes != null){
+                                        echo "htmlspecialchars($f_notes)";
+                                    }
+                                    ?></td>
                                     <?php
                                     if($table=='private_students'){
                                         ?>
