@@ -11,6 +11,9 @@ if($table=='private_students'){
     $pay_rate=$_REQUEST['pay_rate'];
     if(isset($_REQUEST['pay_date'])){
         $pay_date=$_REQUEST['pay_date'];
+        if($pay_date=="null"|| $pay_date=="0000-00-00"){
+            $pay_date=null;
+        }
     } else{
         $pay_date=null;
     }
