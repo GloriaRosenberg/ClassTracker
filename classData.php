@@ -173,7 +173,7 @@
                                 $sql="SELECT SUM(pay_rate*hours_taught) 
                                 FROM private_students 
                                 WHERE name='$name' 
-                                AND (pay_date IS NULL OR pay_date='0000-00-00')";
+                                AND (pay_date IS NULL)";
                                 $query3->prepare($sql);
                                 try{
                                     $query3->execute();
