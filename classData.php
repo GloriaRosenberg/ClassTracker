@@ -68,7 +68,7 @@
                     <tbody>
                         <?php
                         include "connect.php";
-                        $connection=connect("localhost", "root", "", "class_logs");
+                        // $connection=connect("localhost", "root", "", "class_logs");
                         $cols='class_date, hours_taught, content, attendance, student_notes, future_notes';
                         if($table=='private_students'){
                             $cols=$cols.', pay_rate, pay_date';

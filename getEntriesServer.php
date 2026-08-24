@@ -3,7 +3,6 @@ $table=$_REQUEST['table'];
 $name=$_REQUEST['name'];
 $sql="SELECT class_date FROM $table WHERE name='$name'";
 include "connect.php";
-$connection=connect("localhost", "root", "", "class_logs");
 $query=$connection->stmt_init();
 try{
     $query->prepare($sql);
