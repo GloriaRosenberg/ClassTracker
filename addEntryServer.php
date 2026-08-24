@@ -17,7 +17,6 @@ if($table=='private_students'){
 }
 
 include 'connect.php';
-$connection=connect("localhost", "root", "", "class_logs");
 $stmt = $connection->stmt_init();
 if($table=='private_students'){
     $sql="INSERT INTO $table (class_date, name, student_notes, 

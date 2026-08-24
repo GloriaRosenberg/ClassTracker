@@ -1,6 +1,5 @@
 <?php
 include 'connect.php';
-// $connection=connect("localhost", "root", "", "class_logs");
 $table=$_REQUEST['clientGroup'];
 $sql="SELECT DISTINCT name FROM $table";
 $query=$connection->stmt_init();
