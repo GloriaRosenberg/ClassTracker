@@ -93,6 +93,7 @@
                             }
                             $unpaid=0;
                             while($query->fetch()){
+                                date_default_timezone_set("Europe/Madrid");
                                 $now=date("Y-m-d H:i:s");
                                 if($date > $now){
                                     echo "<tr style='color:gray; background-color: #e5e5e5'>$now";
