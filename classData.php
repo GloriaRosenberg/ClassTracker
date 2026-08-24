@@ -93,8 +93,9 @@
                             }
                             $unpaid=0;
                             while($query->fetch()){
-                                if($date > date("Y-m-d H:i:s")){
-                                    echo "<tr style='color:gray; background-color: #e5e5e5'>";
+                                $now=date("Y-m-d H:i:s");
+                                if($date > $now){
+                                    echo "<tr style='color:gray; background-color: #e5e5e5'>$now";
                                 } else {
                                     echo "<tr>";
                                 }
