@@ -3,7 +3,6 @@
     background-position: top, bottom;
     background-size: 100%;
     padding-bottom: 130px;
-    min-height: 900px;
 }
 
 .marginTop{
@@ -34,7 +33,6 @@ thead {
     position: sticky;
     left: 0px;
     width: 80px;
-    margin-bottom: 15px;
     font-size: 14px;
 }
 
