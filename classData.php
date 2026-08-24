@@ -30,10 +30,22 @@
                     <fieldset name="filters">
                         <legend>Filter by date</legend>
                         <label>Start date:  
-                            <input type="datetime-local" name="startDate">
+                            <input type="datetime-local" name="startDate"
+                            <?php
+                            if(isset($_REQUEST['startDate'])){
+                                echo "value='$_REQUEST['startDate']'";
+                            }
+                            ?>
+                            >
                         </label>
                         <label>End date:   
-                            <input type="datetime-local" name="endDate">
+                            <input type="datetime-local" name="endDate"
+                            <?php
+                            if(isset($_REQUEST['endDate'])){
+                                echo "value='$_REQUEST['endDate']'";
+                            }
+                            ?>
+                            >
                         </label>
                         <div>
                             <button type="submit" name="applyFilters" class="aquaBack">Apply filters</button>
