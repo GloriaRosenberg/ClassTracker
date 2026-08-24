@@ -33,7 +33,7 @@
                             <input type="datetime-local" name="startDate"
                             <?php
                             if(isset($_REQUEST['startDate'])){
-                                echo "value='$_REQUEST['startDate']'";
+                                echo "value='".$_REQUEST['startDate']."'";
                             }
                             ?>
                             >
@@ -42,7 +42,7 @@
                             <input type="datetime-local" name="endDate"
                             <?php
                             if(isset($_REQUEST['endDate'])){
-                                echo "value='$_REQUEST['endDate']'";
+                                echo "value='".$_REQUEST['endDate']."'";
                             }
                             ?>
                             >
