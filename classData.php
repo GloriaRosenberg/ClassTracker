@@ -106,22 +106,22 @@
                                     <td class="hours"><?=$hours?></td>
                                     <td class="content"><?php
                                     if($content != null){
-                                        echo "htmlspecialchars($content)";
+                                        echo htmlspecialchars($content);
                                     }
                                     ?></td>
                                     <td class="attendance"><?php
                                     if($attendance != null){
-                                        echo "htmlspecialchars($attendance)";
+                                        echo htmlspecialchars($attendance);
                                     }
                                     ?></td>
                                     <td class="sNotes"><?php
                                     if($s_notes != null){
-                                        echo "htmlspecialchars($s_notes)";
+                                        echo htmlspecialchars($s_notes);
                                     }
                                     ?></td>
                                     <td class="fNotes"><?php
                                     if($f_notes != null){
-                                        echo "htmlspecialchars($f_notes)";
+                                        echo htmlspecialchars($f_notes);
                                     }
                                     ?></td>
                                     <?php
