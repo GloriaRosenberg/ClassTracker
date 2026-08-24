@@ -30,7 +30,7 @@ function connect($server, $username, $password, $database, $port = 3306) {
 $server   = getenv('DB_HOST') ?: "localhost";
 $username = getenv('DB_USER') ?: "root";
 $password = getenv('DB_PASS') ?: "";
-$database = getenv('DB_NAME') ?: "class_logs";
+$database = getenv('DB_NAME') ?: "defaultdb";
 $port     = getenv('DB_PORT') ?: 3306;
 
 $connection = connect($server, $username, $password, $database, $port);
