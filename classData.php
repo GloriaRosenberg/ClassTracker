@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>Class Logs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/mobile.css" media="screen and (max-width: 480px)">
         <link rel="stylesheet" href="css/desktop.css" media="screen and (min-width: 900px)">
         <link rel="stylesheet" href="css/narrowDesktop.css" media="screen and (min-width: 481px) and (max-width: 899px)">
