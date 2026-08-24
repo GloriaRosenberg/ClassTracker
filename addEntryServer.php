@@ -42,7 +42,7 @@ try{
     $stmt->execute();
     $json["success"]="Class record for $name on $class_date updated successfully";
 } catch (mysqli_sql_exception $e) {
-    $json["error"]="error adding class record";
+    $json["error"]="error adding class record: ".$e;
 }
 $send=json_encode($json);
 echo $send;
