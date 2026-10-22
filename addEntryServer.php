@@ -9,12 +9,8 @@ $future_notes=$_REQUEST['future_notes'];
 $hours_taught=$_REQUEST['hours_taught'];
 if($table=='private_students'){
     $pay_rate=$_REQUEST['pay_rate'];
-    if(isset($_REQUEST['pay_date'])){
-        $pay_date=$_REQUEST['pay_date'];
-        if($pay_date=="null"|| $pay_date=="0000-00-00"){
-            $pay_date=null;
-        }
-    } else{
+    $pay_date=$_REQUEST['pay_date'];
+    if($pay_date=="null"|| $pay_date=="0000-00-00" || $pay_date==""){
         $pay_date=null;
     }
 }
@@ -24,26 +20,21 @@ $stmt = $connection->stmt_init();
 if($table=='private_students'){
     $sql="INSERT INTO $table (class_date, name, student_notes, 
     content, attendance, future_notes, hours_taught, pay_rate, pay_date)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE student_notes = ?, content = ?, attendance = ?, 
-    future_notes = ?, hours_taught = ?, pay_rate = ?, pay_date = ?";
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt->prepare($sql);
-    $stmt->bind_param('ssssssddsssssdds', $class_date, $name, $student_notes, $content, $attendance, $future_notes,
-    $hours_taught, $pay_rate, $pay_date, $student_notes, $content, $attendance, $future_notes, $hours_taught, $pay_rate, 
-    $pay_date);
+    $stmt->bind_param('ssssssdds', $class_date, $name, $student_notes, $content, $attendance, $future_notes,
+    $hours_taught, $pay_rate, $pay_date);
 } else {
     $sql="INSERT INTO $table (class_date, name, student_notes, 
     content, attendance, future_notes, hours_taught)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-    ON DUPLICATE KEY UPDATE student_notes = ?, content = ?, attendance = ?, 
-    future_notes = ?, hours_taught = ?";
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt->prepare($sql);
-    $stmt->bind_param('ssssssdssssd', $class_date, $name, $student_notes, $content, $attendance, $future_notes,
-    $hours_taught, $student_notes, $content, $attendance, $future_notes, $hours_taught);
+    $stmt->bind_param('ssssssd', $class_date, $name, $student_notes, $content, $attendance, $future_notes,
+    $hours_taught);
 }
 try{
     $stmt->execute();
-    $json["success"]="Class record for $name on $class_date updated successfully";
+    $json["success"]="Class record for $name on $class_date added successfully";
 } catch (mysqli_sql_exception $e) {
     $json["error"]="error adding class record: ".$e;
 }

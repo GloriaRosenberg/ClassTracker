@@ -1,12 +1,41 @@
+#collapsibleMenu{
+    display:none;
+}
+
+#hamburger{
+    display: inline !important;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 12px;
+}
+
+#homeLink{
+    width: calc(100% - 88px);
+}
+
+.mobileMenu{
+    display: unset !important;
+    background-color: #a968ff;
+}
+
+.mobileMenu a{
+    display: block;
+}
+
+nav{
+    align-items: unset !important;
+    flex-direction: column;
+}
+
 .main {
     background-image: url("../img/edBorderTop.png"), url("../img/edBorderBottom.png");
     background-position: top, bottom;
     background-size: 100%;
-    padding-bottom: 130px;
 }
 
-.marginTop{
-    top: 90px;
+#mainContainer{
+    margin: 120px 10px 150px 10px;
 }
 
 .title{
@@ -16,6 +45,10 @@
 h1{
     /* padding: 0px 50px; */
     max-width: 90% !important;
+}
+
+a.bigButton {
+    height: 60px;
 }
 
 table:not([id="mobileSummary"], .preview) {
@@ -49,6 +82,9 @@ th:not(table[id="mobileSummary"] th, .preview th), td:not(table[id="mobileSummar
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    overflow: auto;
+    font-size: 12px;
 }
 
 td {
@@ -67,6 +103,14 @@ table.preview tr{
     width: 40px;
 }
 
-form[name="dateFilter"]{
+#buttonsHeader{
+    width: unset !important;
+}
+
+div#collapsibleContainer{
     width: 300px;
+}
+
+.actions .button{
+    margin: 5px;
 }

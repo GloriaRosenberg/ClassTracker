@@ -1,8 +1,11 @@
 <?php
 $table=$_REQUEST['table'];
 $name=$_REQUEST['name'];
+
 $sql="SELECT class_date FROM $table WHERE name='$name'";
+
 include "connect.php";
+
 $query=$connection->stmt_init();
 try{
     $query->prepare($sql);

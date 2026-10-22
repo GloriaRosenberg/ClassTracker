@@ -1,12 +1,28 @@
 .main {
     background-image: url("../img/edBorderLeft.png"), url("../img/edBorderRight.png");
     background-position: left top, right top;
-    background-size: auto 750px;
-    min-height: 700px;
+    background-size: auto 100vh;
+    background-attachment: fixed;
+}
+
+#mainContainer{
+    margin: 60px 130px;
 }
 
 .title {
     font-size: 60px;
+}
+
+@media screen and (min-width: 1000px){
+    .title{
+        font-size: 80px;
+    }
+    h2.subtitle{
+        font-size: 32px;
+    }
+    #bigButtonsContainer{
+        margin-top: 20px;
+    }
 }
 
 form {
@@ -27,14 +43,10 @@ tfoot {
     bottom: 0px;
 }
 
-.marginTop{
-    top: 50px;
-    padding-bottom: 60px;
-}
-
 table {
+    width: 100%;
+    overflow-x: auto;
     display: block;
     max-height: 470px;
     overflow-y: auto;
-    overflow-x: hidden;
 }

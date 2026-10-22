@@ -1,11 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bpmf+Huninn&display=swap');
+
+:root{
+    --blue: #0296f6;
+    --bluePurple: #4252b1;
+    --red: #e84643;
+    --aqua: #80cac3;
+    --paleBlue: #c1e1e6;
+    --palePurple: #c6a2ff;
+    --yellow: #facd1c;
+    --green: #009444;
+    --pink: #ff5c83;
+    --purple: #a968ff;
+}
+
+.red {
+    color: var(--red);
+}
+
+.redBack {
+    background-color: var(--red);
+}
+
+.paleBlue {
+    color: var(--aqua);
+}
+
+.paleBlueBack {
+    background-color: var(--paleBlue);
+    color: black;
+}
+
+.palePurple {
+    color: var(--palePurple);
+}
+
+.yellow {
+    color: var(--yellow);
+}
+
+.yellowBack {
+    background-color: var(--yellow);
+    /* color: black; */
+}
+
+.bluePurple {
+    color: var(--bluePurple);
+}
+
+.bluePurpleBack{
+    background-color: var(--bluePurple);
+}
+
+.green {
+    color: var(--green);
+}
+
+.greenBack{
+    background-color: var(--green);
+}
+
+.aquaBack{
+    background-color: var(--aqua);
+    /* color: black;  */
+}
+
+.blue {
+    color: var(--blue);
+}
+
+.blueBack{
+    /* color: black; */
+    background-color: var(--blue);
+}
+
+.pink {
+    color: var(--pink);
+}
+
+.pinkBack {
+    background-color: var(--pink);
+}
+
+.purple {
+    color: var(--purple);
+}
+
+.purpleBack {
+    background-color: var(--purple);
+    /* color: black; */
+}
+
+.whiteBack{
+    background-color: white;
+    color: black;
+}
+
 body {
-    font-family: arial;
+    font-family: 'Bpmf Huninn', sans-serif;
+}
+
+#hamburger{
+    display:none;
 }
 
 .main {
-    background-attachment: fixed;
     background-repeat: no-repeat;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
 }
 
 .flexContainer {
@@ -14,10 +119,23 @@ body {
     align-items: center;
 }
 
-.singleColFlex {
+div.flexContainer{
+    flex-wrap: wrap;
+}
+
+.wrap{
+    flex-wrap: wrap;
+}
+.vertical {
     flex-direction: column;
+}
+
+.gap20{
+    gap: 20px;
+}
+
+.gap10 {
     gap: 10px;
-    position: relative;
 }
 
 .title {
@@ -27,16 +145,39 @@ body {
 
 .subtitle {
     margin-bottom: 5px;
+    font-size: 22px;
+}
+
+nav, footer{
+    background-color: var(--bluePurple);
+    color: white;
+    font-size: 14px;
+    position: sticky;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 footer {
-    background-color: #4252b1;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    padding: 13px;
-    position: sticky;
     bottom: 0px;
+    padding: 13px;
+}
+
+nav {
+    top: 0px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    padding: 13px 20px;
+    /* margin: 0px 10px; */
+}
+
+nav a:hover, svg:hover{
+    background-color: var(--paleBlue);
+    color: black;
 }
 
 h1{
@@ -46,8 +187,17 @@ h1{
     background-color: white;
 }
 
+h1, h2 {
+    border-radius: 30px;
+    padding: 0px 10px;
+}
+
 h1:not(h1.title){
     max-width: 400px;
+}
+
+#groupName {
+    margin-bottom: 20px;
 }
 
 h2 {
@@ -55,19 +205,23 @@ h2 {
     font-size: 25px; 
     font-weight: 100;
     margin: 0px;
+    background-color: white;
 }
 
 h3 {
-    font-family: "Titan One", sans-serif;
+    font-family: "Bpmf Huninn", sans-serif;
     font-size: 1.2em;
     font-weight: 100;
-    margin-top: 0px;
+    margin: 0px;
 }
 
-p, label, legend {
-    font-family: "Coming Soon", cursive;
+strong{
+    font-weight: bold;
+}
+
+p, label {
+    font-family: "Bpmf Huninn", sans-serif;
     font-size: 16px;
-    font-weight: bold;  
     display: block;
 }
 
@@ -78,33 +232,74 @@ p{
 form[name="actionForm"] label{
     width: 310px;
     text-align: right;
-    flex-direction: column;
+    font-size: 15px;
 }
 
-
-fieldset {
-    background-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    border: 1px solid #80cac3;
-    margin: 0px 0px 20px 0px;
-    max-width: 400px;
+#linksCollapsible button{
+    margin: 0px 5px;
 }
 
-fieldset input {
-    background-color: #c1e1e6;
+#linksCollapsible p{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#linksCollapsible fieldset{
+    border: 1px solid white;
+    text-align: right;
+    color: white;
+    font-size: 0.8em;
+}
+
+#linksCollapsible a{
+    color: var(--paleBlue);
+}
+
+#linksCollapsible input {
     border: none;
-    width: unset;
 }
 
-legend {
-    color: #80cac3;
+#linksCollapsible label {
+    font-size: inherit;
+    margin: 5px;
 }
 
-form[name="dateFilter"] label {
-    display: inline;
-    padding: 10px;
+#collapsibleLabels{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 5px;
+    border-bottom: 3px solid var(--paleBlue);
+}
+
+#collapsibleLabels div {
+    width: 50%;
+    padding: 5px;
+    border-radius: 15px 15px 0px 0px;
+    font-family: "Titan One", sans-serif;
+}
+
+#collapsibleContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 400px;
+}
+
+.collapsible {
+    padding: 20px;
+}
+
+#filterCollapsible input{
+    margin: 10px;
+}
+
+#filterCollapsible {
+    display: none;
+}
+
+#linksCollapsible{
+    display: none;
 }
 
 form[name="chooseGroup"]{
@@ -113,9 +308,9 @@ form[name="chooseGroup"]{
     width: 220px;
 }
 
-input, textarea {
+input, textarea, form[name='actionForm'] select {
     background-color: white;
-    border: 1px solid #4252b1;
+    border: 1px solid var(--bluePurple);
     border-radius: 3px;
     width: 200px;
     vertical-align: middle;
@@ -142,8 +337,8 @@ form {
     flex-wrap: wrap;
 }
 
-select {
-    background-color: #c1e1e6;
+select:not(form[name='actionForm'] select) {
+    background-color: var(--paleBlue);
     border: none;
     height: 40px;
     width: 200px;
@@ -153,19 +348,15 @@ select {
 
 button, .button, .fontButton {
     color: white;
-    height: 30;
+    height: 28px;
     border-radius: 5px;
     border-color: transparent;
     margin: 10px;
 }
 
-.wide90 {
-    width: 90px;
-}
-
 button, .fontButton {
     font-family: "Titan One", sans-serif;
-    background-color: #4252b1;
+    background-color: var(--bluePurple);
     font-size: 18px;
 }
 
@@ -173,40 +364,45 @@ a.button {
     font-size: 12px;
     font-weight: bold;
     padding: 5px;
-    margin: 0px;
+    display:block;
+    height: auto;
 }
 
 a.fontButton {
     text-decoration: none;
-    padding-top: 7px;
+    padding: 7px 10px;
     align-self: center;
+    margin-top: 10px;
 }
 
-.greenBack{
-    background-color: #009444;
+a.bigButton {
+    width: 150px;
+    height: 80px;
+    font-family: "Bpmf Huninn", sans-serif;
+    font-size: 24;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    line-height: 1.3em;
+    text-decoration: none;
+    color: white;
+    border-radius: 15px;
+    padding: 19px;
+    margin: 10px;
 }
 
-.bluePurpleBack{
-    background-color: #4252b1;
-}
-
-.redBack {
-    background-color: #e84643;
-}
-
-.paleBlueBack {
-    background-color: #c1e1e6;
-    color: black;
-}
-
-.aquaBack{
-    background-color: #80cac3;
-    /* color: black;  */
+button.smallButton {
+    width: 90%;
+    height: 25px;
+    font-size: 14px;
+    padding: 0px 2px;
+    margin: 5px;
 }
 
 table {
     border-collapse: collapse;
     text-align: center;
+    justify-self: center;
 }
 
 th, td {
@@ -229,40 +425,81 @@ th, tfoot td {
     font-weight: bold;
 }
 
-.red {
-    color: #e84643;
+#buttonsHeader{
+    width: 110px;
 }
 
-.paleBlue {
-    color: #80cac3;
+.greyButton{
+    background-color: grey;
+    color: white;
+    font-family: "Bpmf Huninn", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    width: 130px;
+    height: 25px; 
+    border: 3px inset grey; 
+    border-radius: 20px;
+    font-size: 12px;
 }
 
-.palePurple {
-    color: #c6a2ff;
+.tile {
+    width: 150px;
+    height: 150px;
 }
 
-.yellow {
-    color: #facd1c;
+.tile p{
+    font-family: "Bpmf Huninn", sans-serif;
+    font-weight: 100;
 }
 
-.bluePurple {
-    color: #4252b1;
+.tile{
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.green {
-    color: #009444;
+#financialSummary{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.blue {
-    color: #0296f6;
+.dotted {
+    outline-style: dashed;
+    outline-color: #ffffff;
+    outline-offset: -10px;
+    outline-width: 2px;
 }
 
-.pink {
-    color: #ff5c83;
+#pie {
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
 }
 
-.purple {
-    color: #a968ff;
+.legend {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+}
+
+#legendDiv{
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#legendDiv div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 @media screen and (min-width: 481px) {

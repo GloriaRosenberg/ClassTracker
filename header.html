@@ -1,0 +1,30 @@
+<nav>
+    <a id="homeLink" href="index.php">Home</a>
+    <svg id="hamburger" height="18" width="24" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="2" x2="24" y2="2" style="stroke:white;stroke-width:3" />
+        <line x1="0" y1="9" x2="24" y2="9" style="stroke:white;stroke-width:3" />
+        <line x1="0" y1="16" x2="24" y2="16" style="stroke:white;stroke-width:3" />
+        Menu
+    </svg>
+    <div id="collapsibleMenu">
+        <a href="classLogs.php">Class Logs</a>
+        <a href="calendar.php">Calendar</a>
+        <a href="finances.php?thisMonth=">Finances</a>
+    </div>
+</nav>
+<script>
+    let open = false;
+    document.getElementById("hamburger").onclick=function(){
+        let menu = document.getElementById("collapsibleMenu");
+        console.log("hamburgerrr");
+        console.log(open);
+        menu.className = "mobileMenu";
+        if(!open){
+            menu.className = "mobileMenu";
+            open = true;
+        } else {
+            menu.className = null;
+            open = false;
+        }
+    }
+</script>

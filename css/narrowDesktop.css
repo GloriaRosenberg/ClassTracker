@@ -2,10 +2,11 @@
     background-image: url("../img/edBorderTop.png"), url("../img/edBorderBottom.png");
     background-position: top, bottom;
     background-size: 100%;
-    background-attachment: unset !IMPORTANT;
-    min-height: 700px;
-    padding-top: 60px;
-    padding-bottom: 130px;
+}
+
+#mainContainer{
+    margin: 180px 100px 250px 100px;
+    min-height: 60vh;
 }
 
 .title{
@@ -23,18 +24,14 @@ tfoot {
     bottom: 0px;
 }
 
-.marginTop{
-    top: 130px;
-}
-
 .formFlex{
     margin: 2% 5%;
 }
 
 table {
-    width: 90%;
+    width: 90vw;
     overflow-x: auto;
     display: block;
-    /* max-height: 470px;
-    overflow-y: scroll; */
+    max-height: 470px;
+    overflow-y: auto;
 }

@@ -1,30 +1,307 @@
 window.onload = function(){
+    const linkForm = document.addLink;
+    console.log(linkForm.sendLink);
+    linkForm.sendLink.onclick=function(){
+        if(linkForm.linkDescription != "" && linkForm.linkURL != ""){
+            ajaxAddLink();
+        } else {
+            alert("You must fill in a description and url");
+        }
+    }
+    const filterToggle = document.getElementById("filterToggle");
+    let filterOpen = false;
+    filterToggle.onclick = function(){
+        if(!filterOpen){
+            document.getElementById("filterCollapsible").style.display = "unset";
+            document.getElementById("linksCollapsible").style.display = "none";
+            document.getElementById("collapsibleLabels").style.borderBottom = "3px solid var(--paleBlue)";
+            filterOpen = true;
+            linksOpen = false;
+        } else if (filterOpen) {
+            document.getElementById("filterCollapsible").style.display = "none";
+            filterOpen = false; 
+        }
+    }
+    const linksToggle = document.getElementById("linksToggle");
+    let linksOpen = false;
+    linksToggle.onclick = ()=>{
+        if(!linksOpen){
+            document.getElementById("linksCollapsible").style.display = "unset";
+            document.getElementById("filterCollapsible").style.display = "none";
+            document.getElementById("collapsibleLabels").style.borderBottom = "3px solid var(--red)";
+            filterOpen = false; 
+            linksOpen = true;
+        } else if (linksOpen) {
+            document.getElementById("linksCollapsible").style.display = "none";
+            linksOpen = false; 
+        }
+    }
     let filters = document.dateFilter;
     filters.clearFilters.onclick=function(){
         filters.startDate.value = "";
         filters.endDate.value = "";
         filters.submit();
     }
+    filters.thisMonth.onclick=function(){
+        let firstOfMonth = new Date();
+        firstOfMonth.setDate(1);
+        firstOfMonth.setHours(2);
+        firstOfMonth.setMinutes(0);
+        let startString = firstOfMonth.toISOString();
+        filters.startDate.value = startString.substring(0, startString.length -8);
+        let lastOfMonth = new Date();
+        lastOfMonth.setMonth(lastOfMonth.getMonth() + 1);
+        lastOfMonth.setDate(0);
+        lastOfMonth.setHours(2);
+        lastOfMonth.setMinutes(0);
+        let endString = lastOfMonth.toISOString();
+        filters.endDate.value = endString.substring(0, endString.length -8);
+        console.log(startString+" and "+endString);
+        filters.submit();
+    }
     document.getElementById("linkAdd").onclick = addForm;
-    document.getElementById("linkModify").addEventListener("click", getEntries);
-    document.getElementById("linkRemove").onclick = getEntries;
+    let modButtons = document.getElementsByClassName("linkModify");
+    let delButtons = document.getElementsByClassName("linkRemove");
+    for(let i=0; i<modButtons.length; i++){
+        modButtons[i].addEventListener("click", enableEditing);
+        delButtons[i].addEventListener("click", function(event){
+            if(confirm("Delete class log for " + event.target.parentElement
+                .parentElement.children[0].textContent + "?")){
+                ajaxRemove(event);
+            }
+        });
+    }
+    document.getElementById("deleteGroup").onclick = function(){
+        if(confirm("Are you sure you want to delete all data for the class " + document.details.name.value
+            + "? This action cannot be undone.")){
+                deleteGroup();
+                setTimeout(function() {
+                    window.location.replace("classLogs.php");
+                }, 1000);
+            }
+    }
+}
+function enableEditing(event){
+    console.log(event.target);
+    let fields = event.target.parentElement.parentElement.children;
+    let n = 0;
+    if(document.details.name.value=="all")
+        n = 1;
+    let oldDate = fields[n].textContent;
+    fields[n].innerHTML = "<input type='datetime-local' name='class_date' style='width:fit-content' value='"
+    +fields[n].textContent+"'>";
+    fields[n+1].innerHTML = "<input type='number' name='hours_taught' min='0' style='width:50px' value='"
+    +fields[n+1].textContent+"'>";
+    for(let i=n+2; i<n+6; i++){ 
+        let txt = fields[i].textContent;
+        for(let j=0; j<fields[i].children.length; j++){
+            console.log(fields[i].children[j].tagName);
+            if(fields[i].children[j].tagName == "A"){
+                console.log("link found");
+                let url = fields[i].children[j].href;
+                txt = txt.replace("link", url);
+            }
+        }
+        fields[i].innerHTML = "<textarea name='"+fields[i].className+"' style='width:100px'>"
+        +txt+"</textarea>";
+    }
+    if(document.details.table.value=="private_students"){
+        fields[n+6].innerHTML = "<input type='number' name='hours_taught' min='0' style='width:50px' value='"
+        +fields[n+6].textContent+"'>";
+        let payDate = fields[n+7].textContent;
+        let html = "<label>Paid? <input type='checkbox' name='paid' class='payCheck'";
+        if(payDate != "Not yet paid"){
+            html += "checked";
+        }
+        html += "><input type='date' name='class_date' style='width:fit-content'";
+        if(payDate != "Not yet paid"){
+            html += "value='"+payDate+"'";
+        } else {
+            html += "disabled";
+        }
+        html += ">";
+        fields[n+7].innerHTML = html;
+        let boxes = document.getElementsByClassName("payCheck");
+        for(let i=0; i<boxes.length; i++){
+            boxes[i].addEventListener("click", function(){
+                if(boxes[i].checked){
+                    boxes[i].nextSibling.disabled = false;
+                } else {
+                    boxes[i].nextSibling.disabled = true;
+                    boxes[i].nextSibling.value = null;
+                }
+            });
+        }
+    }
+    
+    let buttonMod = document.createElement("button");
+    buttonMod.className = "bluePurpleBack";
+    buttonMod.name="modify";
+    buttonMod.textContent = "MODIFY";
+    buttonMod.onclick = function(event){
+        if(confirm("Confirm changes?")){
+            ajaxModify(event, oldDate);
+        }
+    };
+    let buttonCan = document.createElement("button");
+    buttonCan.className = "bluePurpleback";
+    buttonCan.name="cancel";
+    buttonCan.textContent = "CANCEL";
+    buttonCan.onclick = function(){
+        // Improve this later
+        location.reload();
+    }
+    fields[fields.length-1].innerHTML = "";
+    fields[fields.length-1].appendChild(buttonMod);
+    fields[fields.length-1].appendChild(buttonCan);
+}
+function ajaxModify(event, oldDate){
+    console.log(oldDate);
+    let name;
+    let table = document.details.table.value;
+    let tr = event.target.parentElement.parentElement;
+    let n = 0;
+    if(document.details.name.value=="all"){
+        n = 1;
+        name = tr.children[0].textContent;
+    } else {
+        name = document.details.name.value
+    }
+    encodedName = name.replaceAll("&", "%26").replaceAll("+", "%2B");
+    let class_date = tr.children[n].children[0].value;
+    let hours_taught = tr.children[n+1].children[0].value;
+    let content = tr.children[n+2].children[0].value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    let attendance = tr.children[n+3].children[0].value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    let student_notes = tr.children[n+4].children[0].value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    let future_notes = tr.children[n+5].children[0].value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    let pay_rate = null;
+    let pay_date = null;
+    let error = null;
+    console.log("modifyEntryServer.php?class_date="+class_date
+        +"&name="+encodedName+"&content="+content+"&attendance="+attendance
+        +"&student_notes="+student_notes+"&future_notes="+future_notes
+        +"&hours_taught="+hours_taught+"&pay_rate="+pay_rate+"&pay_date="+pay_date
+        +"&table="+table+"&old_date="+oldDate);
+    if(document.details.table.value=="private_students"){
+        pay_rate = tr.children[n+6].children[0].value;
+        let ch
+        pay_date = tr.children[n+7].children[0].children[1].value;
+        if(pay_rate == ""){
+            error = "pay rate is required";
+        }
+        if(tr.children[n+7].children[0].children[0].checked && pay_date == ""){
+            error = "if class has been paid you must specify the date";
+        }
+    }
+    if(class_date == "" || hours_taught == ""){
+        error = "class date and hours are required";
+    }
+    if(error == null){
+        let request = new XMLHttpRequest();
+        request.open("GET", "modifyEntryServer.php?class_date="+class_date
+            +"&name="+encodedName+"&content="+content+"&attendance="+attendance
+            +"&student_notes="+student_notes+"&future_notes="+future_notes
+            +"&hours_taught="+hours_taught+"&pay_rate="+pay_rate+"&pay_date="+pay_date
+            +"&table="+table+"&old_date="+oldDate, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                let response = JSON.parse(request.responseText);
+                console.log(response);
+                if(response.success){
+                    alert(response.success);
+                    location.reload();
+                } else if(response.error){
+                    alert(response.error);
+                } else {
+                    alert("Something went wrong.");
+                }
+            }
+        }
+        request.send(null);
+    } else {
+        alert(error);
+    }
+}
+function deleteGroup(){
+    let group = document.details.name.value;
+    let table = document.details.table.value;
+
+    let request = new XMLHttpRequest();
+    request.open("GET", "deleteGroupServer.php?table="+table+"&group="+group, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let response = JSON.parse(request.responseText);
+            if(response.error){
+                alert(response.error);
+            } else if(response.success){
+                alert(response.success);
+            }
+        }
+    }
+    request.send(null);
+}
+function fillGroupSelector(){
+    let groupSelector = document.actionForm.group_name;
+    console.log(document.actionForm);
+    let category = document.details.table.value;
+
+    let httpRequest = new XMLHttpRequest();
+    httpRequest.open("GET", "groupsServer.php?clientGroup="+category, true);
+    httpRequest.setRequestHeader("Content-Type", "application/json");
+    httpRequest.onreadystatechange = function(){
+        if(httpRequest.readyState == 4 && httpRequest.status == 200){
+            var data = JSON.parse(httpRequest.responseText);
+            groupSelector.innerHTML = "<option value='' selected hidden>--Choose a class--</option>";
+            if(data.error){
+                console.log(data.error);
+            } else if(data.noData){
+                console.log(data.noData);
+            } else {
+                for(var row in data){
+                    let groupName=data[row].name;
+                    let option = document.createElement("option");
+                    option.value = groupName;
+                    option.appendChild(document.createTextNode(groupName));
+                    groupSelector.appendChild(option);
+                }
+            }
+
+        }
+    }
+    httpRequest.send(null);
 }
 function addForm(){
-    let html = "<div class='flexContainer formFlex'>"
-    + "<label>Class date <input type='datetime-local' name='class_date'></label>"
+    let html = "<div class='flexContainer formFlex'>";
+    if(document.details.name.value === "all"){
+        html += "<label>Group Name <select name='group_name'></select></label>";
+    }
+    html += "<label>Class date <input type='datetime-local' name='class_date'></label>"
     + "<label>Hours taught <input type='number' name='hours_taught' min='0'></label>"
-    + "<label>Content <textarea name='content' maxlength='90'></textarea></label>"
-    + "<label>Attendance <input type='text' name='attendance' maxlength='50'></label>"
-    + "<label>Student notes <textarea name='student_notes' maxlength='90'></textarea></label>"
-    + "<label>Future notes <textarea name='future_notes' maxlength='90'></textarea></label>";
-    if(document.getElementById("pay_rate")!=null){
-        html += "<label>Hourly Rate <input type='number' name='pay_rate' min='0'></label>"
+    + "<label>Content <textarea name='content'></textarea></label>"
+    + "<label>Attendance <input type='text' name='attendance'></label>"
+    + "<label>Student notes <textarea name='student_notes'></textarea></label>"
+    + "<label>Future notes <textarea name='future_notes'></textarea></label>";
+    if(document.details.table.value=="private_students"){
+        html += "<label>Hourly Rate <input type='number' name='pay_rate' ";
+        if(document.details.name.value == "Jamie & Jayden"){
+            html += "value='12' ";
+        } else if(document.details.name.value == "Tiago & Iker"){
+            html += "value='15' ";
+        } else if(document.details.name.value == "Farouk"){
+            html += "value='12' ";
+        }
+        html += "min='0'></label>"
         + "<label>Paid? <input type='checkbox' name='paid'>"
         + "<input type='date' name='pay_date' disabled></label>";
     }
     html += "</div><div><button class='greenBack' type='button' name='add' id='addEntry'>ADD</button>"
     + "<button class='greenBack' type='button' name='cancel'>CANCEL</button></div>";
     document.actionForm.innerHTML = html;
+    if(document.details.name.value === "all"){
+        fillGroupSelector();
+    }
     if(document.details.table.value == "private_students"){
         document.actionForm.paid.onchange = checkPaid;
     }
@@ -40,7 +317,7 @@ function checkPaid(){
         document.actionForm.pay_date.disabled = true;
     }
 }
-function verify(event){
+function verify(){
     let valid = true;
     let dateEntered = document.actionForm.class_date.value;
     if(dateEntered == ""){
@@ -71,20 +348,17 @@ function verify(event){
         }
     }
     if(valid){
-        ajaxAdd(event);
+        ajaxAdd();
     }
 }
-function ajaxAdd(event){
-    console.log(event.target);
+function ajaxAdd(){
     let form = document.actionForm;
     let table = document.details.table.value;
-    let class_date;
-    if(event.target.id == "addEntry"){
-        class_date = form.class_date.value;
-    } else if (event.target.id == "modifyEntry"){
-        class_date = document.getElementById("selector").value;
-    }
+    let class_date = form.class_date.value;
     let name = document.details.name.value;
+    if(name === "all"){
+        name = form.group_name.value;
+    }
     encodedName = name.replaceAll("&", "%26").replaceAll("+", "%2B");
     let hours_taught = form.hours_taught.value;
     let content = form.content.value.replaceAll("&", "%26").replaceAll("+", "%2B");
@@ -114,12 +388,8 @@ function ajaxAdd(event){
             if(response.error){
                 alert(response.error);
             } else if(response.success) {
-                if(event.target.id == "addEntry")
-                    alert("Class record for " + name + " on " 
+                alert("Class record for " + name + " on " 
                 + class_date + " added successfully");
-                else if(event.target.id == "modifyEntry")
-                    alert("Class record for " + name + " on " 
-                        + class_date + " modified successfully");
                 location.reload();
             }
         }
@@ -186,12 +456,20 @@ function getEntries(event){
     }
     request.send(null);
 }
-function ajaxRemove(){
-    let class_date = document.getElementById("selector").value;
-    let name = document.details.name.value;
-    encodedName = name.replace("&", "%26");
+function ajaxRemove(event){
+    let name;
+    let n=0;
+    if(document.details.name.value=="all"){
+        n=1;
+        name = event.target.parentElement.parentElement.children[0].textContent;
+    } else {
+        name = document.details.name.value
+    }
+    encodedName = name.replaceAll("&", "%26").replaceAll("+", "%2B");
     let table = document.details.table.value;
-
+    let class_date = event.target.parentElement.parentElement.children[n].textContent;
+    console.log("deleteServer.php?class_date="+class_date
+         +"&name="+encodedName+"&table="+table);
     let request = new XMLHttpRequest();
     request.open("GET", "deleteServer.php?class_date="+class_date
         +"&name="+encodedName+"&table="+table,true);
@@ -203,115 +481,34 @@ function ajaxRemove(){
             if(response.error){
                 alert(response.error);
             } else if(response.success){
-                alert("Class record for " + name + " on " 
-                    + class_date + " deleted successfully");
+                alert(response.success);
                 location.reload();            
             }
         }
     }
     request.send(null);
 }
-function fillForm(mode){
-    document.getElementById("specifics").innerHTML="";
-    let dates = document.getElementsByClassName("lessonDate");
-    let hours = document.getElementsByClassName("hours");
-    let contents = document.getElementsByClassName("content");
-    let attendances = document.getElementsByClassName("attendance");
-    let sNotes = document.getElementsByClassName("sNotes");
-    let fNotes = document.getElementsByClassName("fNotes");
-    let payDates = document.getElementsByClassName("payDate");
-    let payRates = document.getElementsByClassName("payRate");
+function ajaxAddLink(){
+    const description = document.addLink.linkDescription.value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    const url = document.addLink.linkURL.value.replaceAll("&", "%26").replaceAll("+", "%2B");
+    const group_name = document.details.name.value.replaceAll("&", "%26").replaceAll("+", "%2B");
 
-    let this_date = document.getElementById("selector").value;
-    let index = 0;
-    for(let i=0; i<dates.length; i++){
-        if(dates[i].textContent == this_date){
-            index = i;
-            break;
-        }
-    }
-    if(mode == "modify"){
-        let div1 = document.createElement("div");
-        div1.className = "flexContainer";
-        div1.className = "formFlex";
-        let html = "<h3>Class on "+this_date.substring(0,10)+" at "
-        + this_date.substring(11,16)+"</h3>"
-        + "<label>Hours taught <input type='number' name='hours_taught' min='0' value ='"
-        + hours[index].textContent+"'></label>"
-        + "<label>Content <textarea name='content' maxlength='90'>"
-        + contents[index].textContent+"</textarea></label>"
-        + "<label>Attendance <input type='text' name='attendance' maxlength='50' value ='"
-        + attendances[index].textContent+"'></label>"
-        + "<label>Student notes <textarea name='student_notes' maxlength='90'>"
-        + sNotes[index].textContent+"</textarea></label>"
-        + "<label>Future notes <textarea name='future_notes' maxlength='90'>"
-        + fNotes[index].textContent+"</textarea></label>";
-        if(document.details.table.value=="private_students"){
-            html += "<label>Hourly Rate <input type='number' name='pay_rate' min='0' value = '"
-            + payRates[index].textContent/hours[index].textContent+"'></label>"
-            + "<label>Paid? <input type='checkbox' name='paid'";
-            if(payDates[index].textContent!="Not yet paid"){
-                html += " checked>"
-                + "<input type='date' name='pay_date' value='"
-                + payDates[index].textContent+"'></label>";
-            } else {
-                html += "><input type='date' name='pay_date' disabled>";
+    const request = new XMLHttpRequest();
+    request.open("GET", 'addLinkServer.php?description='+description+"&url="+url+"&group_name="+group_name, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onreadystatechange=function(){
+        if(request.readyState == 4 && request.status == 200){
+            console.log(request.responseText);
+            let response = JSON.parse(request.responseText);
+            if(response.error){
+                alert(response.error);
+            } else if(response.success){
+                alert(response.success);
+                location.reload();            
             }
         }
-        div1.innerHTML = html;
-        let div2 = document.createElement("div");
-        let html2 = "<button class='bluePurpleBack' type='button' name='modify' id='modifyEntry'>MODIFY</button>"
-        + "<button class='bluePurpleBack' type='button' name='cancel'>CANCEL</button>";
-        div2.innerHTML = html2;
-        document.getElementById("specifics").appendChild(div1);
-        document.getElementById("specifics").appendChild(div2);
-        if(document.details.table.value == "private_students"){
-            document.actionForm.paid.onchange = checkPaid;
-            document.actionForm.modify.onclick = verifyPaid;
-        } else {
-            document.actionForm.modify.onclick = ajaxAdd;
-        }
-        document.actionForm.cancel.onclick = function(){
-            document.actionForm.innerHTML = "";
-        }
-    } else if (mode == "delete"){
-        let html = null;
-        if(window.innerWidth > 480){
-            html = "<tr><td>Date & Time</td><td>Hours</td><td>Content</td>"
-            +"<td>Attendance</td><td>Student Notes</td><td>Future Notes</td></tr>"
-            +"<tr><td>"+dates[index].textContent+"</td><td>"+hours[index].textContent+"</td><td>"+contents[index].textContent+"</td>"
-            + "<td>"+attendances[index].textContent+"</td><td>"+sNotes[index].textContent+"</td><td>"+fNotes[index].textContent+"</td></tr>";
-        } else {
-            html = "<tr><td>Date & Time</td><td>Hours</td><td>Content</td></tr>"
-            + "<tr><td>"+dates[index].textContent+"</td><td>"+hours[index].textContent+"</td><td>"+contents[index].textContent+"</td></tr>"
-            + "<tr><td>Attendance</td><td>Student Notes</td><td>Future Notes</td></tr>"
-            + "<tr><td>"+attendances[index].textContent+"</td><td>"+sNotes[index].textContent+"</td><td>"+fNotes[index].textContent+"</td></tr>"; 
-        }
-        let tab = document.createElement("table");
-        tab.className = "preview";
-        tab.innerHTML = html;
-        document.getElementById("specifics").appendChild(tab);
-        let div = document.createElement("div");
-        let del = document.createElement("button");
-        del.type = "button";
-        del.onclick = function(){
-            if(confirm("Delete this entry?")){
-                ajaxRemove();
-            }
-        };
-        del.appendChild(document.createTextNode("DELETE"));
-        del.className = "redBack";
-        div.appendChild(del);
-        let cancel = document.createElement("button");
-        cancel.className = "redBack";
-        cancel.type = "button";
-        cancel.appendChild(document.createTextNode("Cancel"));
-        cancel.onclick = function(){
-            document.actionForm.innerHTML = "";
-        }
-        div.appendChild(cancel);
-        document.getElementById("specifics").appendChild(div);
     }
+    request.send(null);
 }
 function verifyPaid(event){
     let valid = true;
@@ -322,6 +519,6 @@ function verifyPaid(event){
         }
     }
     if(valid){
-        ajaxAdd(event);
+        ajaxModify();
     }
 }
